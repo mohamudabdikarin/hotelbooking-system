@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { api } from '../services/api';
+import toast, { Toaster } from 'react-hot-toast';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
