@@ -12,7 +12,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-slate-800 text-white shadow-lg">
+    <header className="bg-indigo-800 text-white shadow-lg border-b-3 border-red-500">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <span className="text-xl font-bold">Hotel System</span>
         <nav className="flex gap-6 items-center">
