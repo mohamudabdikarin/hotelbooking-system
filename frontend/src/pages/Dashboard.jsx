@@ -296,7 +296,7 @@ export const DashboardPage = () => {
             <div className="flex border-b mb-4">
               {tabs.map(tab => (
                 <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 ${activeTab === tab.id ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
+                  className={`px-4 py-2 cursor-pointer hover:bg-blue-600 hover:text-white transition-colors ${activeTab === tab.id ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
                   {tab.label}
                 </button>
               ))}
@@ -311,7 +311,7 @@ export const DashboardPage = () => {
                     <input placeholder="Price" type="number" value={roomForm.price} onChange={e => setRoomForm({...roomForm, price: e.target.value})} className="border p-2" required />
                     <input placeholder="Max Count" type="number" value={roomForm.maxCount} onChange={e => setRoomForm({...roomForm, maxCount: e.target.value})} className="border p-2" required />
                     <input placeholder="Description" value={roomForm.description} onChange={e => setRoomForm({...roomForm, description: e.target.value})} className="border p-2" required />
-                    <button type="submit" className="bg-green-600 text-white p-2 rounded col-span-2">{editingRoom ? 'Update Room' : 'Add Room'}</button>
+                    <button type="submit" className="bg-green-600 cursor-pointer text-white p-2 rounded col-span-2">{editingRoom ? 'Update Room' : 'Add Room'}</button>
                     {editingRoom && <button type="button" onClick={() => { setEditingRoom(null); setRoomForm({ name: '', price: '', maxCount: '', description: '' }); }} className="bg-gray-500 text-white p-2 rounded col-span-2">Cancel</button>}
                   </form>
                 )}
