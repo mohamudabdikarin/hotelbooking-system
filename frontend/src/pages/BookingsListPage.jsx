@@ -103,19 +103,19 @@ export const BookingsListPage = () => {
                     <div className="space-y-3">
                       <button
                         onClick={() => navigate(`/booking/${booking.room?._id || booking.room}`)}
-                        className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                        className="p-2.5 cursor-pointer mx-4 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
                       >
                         View Room
                       </button>
                       <button
                         onClick={() => navigate(`/payment/${booking._id}`)}
-                        className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition"
+                        className="p-2.5 cursor-pointer mx-4 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition"
                       >
                         Make Payment
                       </button>
                       <button
                         onClick={() => handleCancel(booking._id)}
-                        className="w-full bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+                        className="p-2.5 cursor-pointer mx-4 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition"
                       >
                         Cancel Booking
                       </button>

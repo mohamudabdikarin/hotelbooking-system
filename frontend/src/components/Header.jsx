@@ -15,7 +15,7 @@ export const Header = () => {
     <header className="bg-slate-800 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">
-        Hotel Booking
+        Hotel system
         </Link>
         
         <nav className="flex gap-6 items-center">
@@ -33,7 +33,7 @@ export const Header = () => {
               )}
               <Link to="/profile" className="hover:text-blue-200 transition">Profile</Link>
               <span className="text-sm">Hi, {user?.name} ({user?.role})</span>
-              <button onClick={handleLogout} className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition">Logout</button>
+              <button onClick={handleLogout} className="bg-red-600 px-4 py-2 rounded cursor-pointer hover:bg-red-700 transition">Logout</button>
             </>
           )}
           {!token && (

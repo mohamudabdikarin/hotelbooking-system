@@ -63,12 +63,19 @@ export const DashboardPage = () => {
   // Room handlers
   const handleAddRoom = async (e) => {
     e.preventDefault();
+    setError('');
+    if (!roomForm.name.trim()) { setError('Room name is required'); return; }
+    if (!roomForm.price || parseFloat(roomForm.price) <= 0) { setError('Price must be greater than 0'); return; }
+    if (!roomForm.maxCount || parseInt(roomForm.maxCount) <= 0) { setError('Max count must be greater than 0'); return; }
+    if (!roomForm.description.trim()) { setError('Description is required'); return; }
     try {
-      const room = { ...roomForm, price: parseFloat(roomForm.price), maxCount: parseInt(roomForm.maxCount) };
+      const room = { name: roomForm.name.trim(), price: parseFloat(roomForm.price), maxCount: parseInt(roomForm.maxCount), description: roomForm.description.trim() };
       const result = await api.createRoom(room, token);
       if (result._id) {
         setRooms([...rooms, result]);
         setRoomForm({ name: '', price: '', maxCount: '', description: '' });
+      } else {
+        setError(result.message || 'Error adding room');
       }
     } catch (err) {
       setError('Error adding room');
@@ -108,11 +115,19 @@ export const DashboardPage = () => {
   // Customer handlers
   const handleAddCustomer = async (e) => {
     e.preventDefault();
+    setError('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!customerForm.name.trim()) { setError('Name is required'); return; }
+    if (!customerForm.email.trim()) { setError('Email is required'); return; }
+    if (!emailRegex.test(customerForm.email)) { setError('Invalid email format'); return; }
+    if (!customerForm.phone.trim()) { setError('Phone is required'); return; }
     try {
       const result = await api.createCustomer(customerForm, token);
       if (result._id) {
         setCustomers([...customers, result]);
         setCustomerForm({ name: '', email: '', phone: '' });
+      } else {
+        setError(result.message || 'Error adding customer');
       }
     } catch (err) {
       setError('Error adding customer');
@@ -213,11 +228,19 @@ export const DashboardPage = () => {
   // User handlers
   const handleAddUser = async (e) => {
     e.preventDefault();
+    setError('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!userForm.name.trim()) { setError('Name is required'); return; }
+    if (!userForm.email.trim()) { setError('Email is required'); return; }
+    if (!emailRegex.test(userForm.email)) { setError('Invalid email format'); return; }
+    if (!userForm.password || userForm.password.length < 6) { setError('Password must be at least 6 characters'); return; }
     try {
       const result = await api.register(userForm.name, userForm.email, userForm.password, userForm.role);
       if (result.user) {
         setUsers([...users, result.user]);
         setUserForm({ name: '', email: '', password: '', role: 'customer' });
+      } else {
+        setError(result.message || 'Error creating user');
       }
     } catch (err) {
       setError('Error creating user');

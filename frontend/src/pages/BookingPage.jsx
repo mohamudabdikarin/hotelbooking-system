@@ -46,14 +46,30 @@ export const BookingPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     
     if (!bookingData.fromDate || !bookingData.toDate) {
       setError('Please select both dates');
       return;
     }
 
-    if (new Date(bookingData.toDate) <= new Date(bookingData.fromDate)) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const fromDate = new Date(bookingData.fromDate);
+    const toDate = new Date(bookingData.toDate);
+
+    if (fromDate < today) {
+      setError('Check-in date cannot be in the past');
+      return;
+    }
+
+    if (toDate <= fromDate) {
       setError('Check-out date must be after check-in date');
+      return;
+    }
+
+    if (calculateTotalAmount() <= 0) {
+      setError('Invalid booking dates');
       return;
     }
 
@@ -71,7 +87,7 @@ export const BookingPage = () => {
       if (result._id) {
         navigate(`/payment/${result._id}`);
       } else {
-        setError('Failed to create booking');
+        setError(result.message || 'Failed to create booking');
       }
     } catch (err) {
       setError('Error creating booking');

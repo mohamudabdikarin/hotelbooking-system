@@ -28,11 +28,20 @@ export const CustomersPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!formData.name.trim()) { setError('Name is required'); return; }
+    if (!formData.email.trim()) { setError('Email is required'); return; }
+    if (!emailRegex.test(formData.email)) { setError('Invalid email format'); return; }
+    if (!formData.phone.trim()) { setError('Phone is required'); return; }
+    
     try {
       if (editingId) {
         await api.updateCustomer(editingId, formData, token);
       } else {
-        await api.createCustomer(formData, token);
+        const result = await api.createCustomer(formData, token);
+        if (!result._id) { setError(result.message || 'Failed to create customer'); return; }
       }
       setShowForm(false);
       setFormData({ name: '', email: '', phone: '' });
@@ -68,7 +77,7 @@ export const CustomersPage = () => {
         {(user?.role === 'admin' || user?.role === 'receptionist') && (
           <button
             onClick={() => { setShowForm(true); setEditingId(null); setFormData({ name: '', email: '', phone: '' }); }}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition"
           >
             Add Customer
           </button>

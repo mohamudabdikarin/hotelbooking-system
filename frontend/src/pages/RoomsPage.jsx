@@ -57,9 +57,7 @@ export const RoomsPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {rooms.map((room) => (
               <div key={room._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                <div className="bg-blue-400 h-48 flex items-center justify-center">
-                  <div className="text-6xl">🏨</div>
-                </div>
+                
                 <div className="p-6">
                   <h2 className="text-2xl font-bold mb-2">{room.name}</h2>
                   <p className="text-gray-600 mb-4">{room.description}</p>
@@ -77,7 +75,7 @@ export const RoomsPage = () => {
 
                   <button
                     onClick={() => handleBookRoom(room._id)}
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                    className="w-full bg-blue-600 text-white cursor-pointer py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
                   >
                     Book Now
                   </button>

@@ -26,14 +26,34 @@ export const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+    if (!formData.name.trim()) {
+      setError('Name is required');
       return;
     }
-
+    if (formData.name.trim().length < 2) {
+      setError('Name must be at least 2 characters');
+      return;
+    }
+    if (!formData.email.trim()) {
+      setError('Email is required');
+      return;
+    }
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+    if (!formData.password) {
+      setError('Password is required');
+      return;
+    }
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters');
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
       return;
     }
 
@@ -75,7 +95,7 @@ export const RegisterPage = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter your full name"
+              placeholder="Mohamud Abdikarim"
             />
           </div>
 
@@ -88,7 +108,7 @@ export const RegisterPage = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter your email"
+              placeholder="mohamed@gmail.com"
             />
           </div>
 
@@ -121,7 +141,7 @@ export const RegisterPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full bg-blue-600 text-white font-semibold py-2 cursor-pointer rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
           >
             {loading ? 'Creating Account...' : 'Register'}
           </button>
