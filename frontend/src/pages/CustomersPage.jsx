@@ -77,7 +77,7 @@ export const CustomersPage = () => {
         {(user?.role === 'admin' || user?.role === 'receptionist') && (
           <button
             onClick={() => { setShowForm(true); setEditingId(null); setFormData({ name: '', email: '', phone: '' }); }}
-            className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition"
+            className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700 transition"
           >
             Add Customer
           </button>

@@ -311,7 +311,7 @@ export const DashboardPage = () => {
                     <input placeholder="Price" type="number" value={roomForm.price} onChange={e => setRoomForm({...roomForm, price: e.target.value})} className="border p-2" required />
                     <input placeholder="Max Count" type="number" value={roomForm.maxCount} onChange={e => setRoomForm({...roomForm, maxCount: e.target.value})} className="border p-2" required />
                     <input placeholder="Description" value={roomForm.description} onChange={e => setRoomForm({...roomForm, description: e.target.value})} className="border p-2" required />
-                    <button type="submit" className="bg-green-600 cursor-pointer text-white p-2 rounded col-span-2">{editingRoom ? 'Update Room' : 'Add Room'}</button>
+                    <button type="submit" className="bg-green-600 cursor-pointer hover:bg-green-700 text-white p-2 rounded col-span-2">{editingRoom ? 'Update Room' : 'Add Room'}</button>
                     {editingRoom && <button type="button" onClick={() => { setEditingRoom(null); setRoomForm({ name: '', price: '', maxCount: '', description: '' }); }} className="bg-gray-500 text-white p-2 rounded col-span-2">Cancel</button>}
                   </form>
                 )}
@@ -347,7 +347,7 @@ export const DashboardPage = () => {
                     <input placeholder="Name" value={customerForm.name} onChange={e => setCustomerForm({...customerForm, name: e.target.value})} className="border p-2" required />
                     <input placeholder="Email" value={customerForm.email} onChange={e => setCustomerForm({...customerForm, email: e.target.value})} className="border p-2" required />
                     <input placeholder="Phone" value={customerForm.phone} onChange={e => setCustomerForm({...customerForm, phone: e.target.value})} className="border p-2" required />
-                    <button type="submit" className="bg-green-600 text-white p-2 rounded col-span-3">{editingCustomer ? 'Update Customer' : 'Add Customer'}</button>
+                    <button type="submit" className="bg-green-600 cursor-pointer hover:bg-green-700 text-white p-2 rounded col-span-3">{editingCustomer ? 'Update Customer' : 'Add Customer'}</button>
                     {editingCustomer && <button type="button" onClick={() => { setEditingCustomer(null); setCustomerForm({ name: '', email: '', phone: '' }); }} className="bg-gray-500 text-white p-2 rounded col-span-3">Cancel</button>}
                   </form>
                 )}
@@ -453,7 +453,7 @@ export const DashboardPage = () => {
                       <option value="receptionist">Receptionist</option>
                       <option value="admin">Admin</option>
                     </select>
-                    <button type="submit" className="bg-green-600 text-white p-2 rounded col-span-4">{editingUser ? 'Update User' : 'Create User'}</button>
+                    <button type="submit" className="bg-green-600 cursor-pointer hover:bg-green-700 text-white p-2 rounded col-span-4">{editingUser ? 'Update User' : 'Create User'}</button>
                     {editingUser && <button type="button" onClick={() => { setEditingUser(null); setUserForm({ name: '', email: '', password: '', role: 'customer' }); }} className="bg-gray-500 text-white p-2 rounded col-span-4">Cancel</button>}
                   </form>
                 )}
