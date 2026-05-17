@@ -38,7 +38,6 @@ export const RegisterPage = () => {
     }
 
     setLoading(true);
-
     try {
       const result = await api.register(formData.name, formData.email, formData.password);
       

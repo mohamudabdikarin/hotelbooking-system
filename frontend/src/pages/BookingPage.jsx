@@ -150,9 +150,7 @@ export const BookingPage = () => {
                   <span className="text-gray-700">Total Amount:</span>
                   <span className="text-2xl font-bold text-blue-600">${calculateTotalAmount()}</span>
                 </div>
-                <p className="text-sm text-gray-600">
-                  This is the total cost for your stay
-                </p>
+               
               </div>
 
               <button

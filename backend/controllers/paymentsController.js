@@ -19,7 +19,12 @@ export const createPayment = async (req, res) => {
 
 export const getAllPayments = async (req, res) => {
     try {
-        const payments = await Payments.find().populate('user', 'name email').populate('booking');
+        let payments;
+        if (req.user.role === 'customer') {
+            payments = await Payments.find({ user: req.user.id }).populate('user', 'name email').populate('booking');
+        } else {
+            payments = await Payments.find().populate('user', 'name email').populate('booking');
+        }
         res.status(200).json(payments);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching payments', error });
@@ -31,6 +36,9 @@ export const getPaymentById = async (req, res) => {
         const payment = await Payments.findById(req.params.id).populate('user', 'name email').populate('booking');
         if (!payment) {
             return res.status(404).json({ message: 'Payment not found' });
+        }
+        if (req.user.role === 'customer' && payment.user._id.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized' });
         }
         res.status(200).json(payment);
     } catch (error) {   

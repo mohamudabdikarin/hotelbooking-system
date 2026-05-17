@@ -81,13 +81,16 @@ export const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+    if (req.user.role === 'customer' && req.params.id !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Update user (admin only)
+// Update user
 export const updateUser = async (req, res) => {
   try {
     const { name, email, role } = req.body;
@@ -95,9 +98,17 @@ export const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (role) user.role = role;
+    if (req.user.role === 'customer' && req.params.id !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+    if (req.user.role === 'customer') {
+      if (name) user.name = name;
+      if (email) user.email = email;
+    } else {
+      if (name) user.name = name;
+      if (email) user.email = email;
+      if (role && req.user.role === 'admin') user.role = role;
+    }
     await user.save();
     res.json({ id: user._id, name: user.name, email: user.email, role: user.role });
   } catch (error) {

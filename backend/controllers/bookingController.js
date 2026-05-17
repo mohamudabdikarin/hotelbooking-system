@@ -42,10 +42,14 @@ export const getBookingById = async (req, res) => {
 
 export const updateBookingById = async (req, res) => {
     try {
-        const updatedBooking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('room').populate('user', 'name email');
-        if (!updatedBooking) {
+        const booking = await Booking.findById(req.params.id);
+        if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
         }
+        if (req.user.role === 'customer' && booking.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+        const updatedBooking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('room').populate('user', 'name email');
         res.status(200).json(updatedBooking);
     } catch (error) {
         res.status(500).json({ message: 'Error updating booking', error });
@@ -54,12 +58,16 @@ export const updateBookingById = async (req, res) => {
 
 export const deleteBookingById = async (req, res) => {
     try {
-        const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
-        if (!deletedBooking) {
+        const booking = await Booking.findById(req.params.id);
+        if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
         }
-        res.status(200).json({ message: 'Booking deleted successfully' });
+        if (req.user.role === 'customer' && booking.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+        await Booking.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: 'Booking deleted successfully', id: req.params.id });
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting booking', error });
+        res.status(500).json({ message: 'Error deleting booking: ' + error.message });
     }
 };

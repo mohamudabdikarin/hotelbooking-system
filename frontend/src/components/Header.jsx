@@ -12,14 +12,14 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-slate-600 text-white shadow-lg">
+    <header className="bg-slate-800 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">
         Hotel Booking
         </Link>
         
         <nav className="flex gap-6 items-center">
-          <Link to="/" className="hover:text-blue-200 transition">Home</Link>
+          
           <Link to="/rooms" className="hover:text-blue-200 transition">Rooms</Link>
           
           {token && (

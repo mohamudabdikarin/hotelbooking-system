@@ -8,9 +8,9 @@ router.post('/register', registerUser);
 router.post('/login', authUser);
 router.get('/profile', protect, getUserProfile);
 
-router.get('/', protect, authorize('admin'), getAllUsers);
-router.get('/:id', protect, authorize('admin', 'receptionist'), getUserById);
-router.put('/:id', protect, authorize('admin'), updateUser);
+router.get('/', protect, authorize('admin', 'receptionist'), getAllUsers);
+router.get('/:id', protect, authorize('admin', 'receptionist', 'customer'), getUserById);
+router.put('/:id', protect, authorize('admin', 'customer'), updateUser);
 router.delete('/:id', protect, authorize('admin'), deleteUser);
 
 export default router;

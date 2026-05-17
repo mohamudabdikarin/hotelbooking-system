@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/', authorize('admin', 'receptionist'), paymentsController.getAllPayments);
-router.get('/:id', authorize('admin', 'receptionist'), paymentsController.getPaymentById);
-router.post('/', authorize('admin'), paymentsController.createPayment);
+router.get('/', authorize('admin', 'receptionist', 'customer'), paymentsController.getAllPayments);
+router.get('/:id', authorize('admin', 'receptionist', 'customer'), paymentsController.getPaymentById);
+router.post('/', authorize('admin', 'customer'), paymentsController.createPayment);
 router.put('/:id', authorize('admin'), paymentsController.updatePaymentById);
 router.delete('/:id', authorize('admin'), paymentsController.deletePaymentById);
 

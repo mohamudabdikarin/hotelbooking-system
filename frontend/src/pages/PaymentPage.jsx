@@ -36,26 +36,27 @@ export const PaymentPage = () => {
       setError('Amount must be greater than 0');
       return;
     }
-
     setLoading(true);
+    setError('');
     try {
       const payment = {
         ...paymentData,
         amount: parseFloat(paymentData.amount),
-        status: 'completed'
+        status: 'paid',
+        bookingId
       };
 
       const result = await api.createPayment(payment, token);
-      if (result._id) {
+      if (result._id || result.message) {
         setSuccess(true);
         setTimeout(() => {
           navigate('/bookings');
         }, 2000);
       } else {
-        setError('Payment failed');
+        setError('Payment failed. Please try again.');
       }
     } catch (err) {
-      setError('Error processing payment');
+      setError(err.message || 'Error processing payment');
     } finally {
       setLoading(false);
     }

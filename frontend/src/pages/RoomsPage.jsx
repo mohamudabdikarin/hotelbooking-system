@@ -17,7 +17,7 @@ export const RoomsPage = () => {
   const fetchRooms = async () => {
     try {
       setLoading(true);
-      const result = token ? await api.getRooms(token) : await api.getRooms();
+      const result = await api.getRooms();
       if (Array.isArray(result)) {
         setRooms(result);
       } else {

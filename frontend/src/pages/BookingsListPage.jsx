@@ -90,7 +90,7 @@ export const BookingsListPage = () => {
                         {new Date(booking.toDate).toLocaleDateString()}
                       </p>
                       <p className="text-gray-700">
-                        <span className="font-semibold">Room ID:</span> {booking.room}
+                        <span className="font-semibold">Room:</span> {booking.room?.name || booking.room}
                       </p>
                       <p className="text-xl text-blue-600 font-bold">
                         Total: ${booking.totalAmount}
@@ -102,7 +102,7 @@ export const BookingsListPage = () => {
                     <h3 className="text-xl font-bold mb-4">Actions</h3>
                     <div className="space-y-3">
                       <button
-                        onClick={() => navigate(`/booking/${booking.room}`)}
+                        onClick={() => navigate(`/booking/${booking.room?._id || booking.room}`)}
                         className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
                       >
                         View Room

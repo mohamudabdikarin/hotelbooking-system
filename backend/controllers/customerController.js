@@ -49,6 +49,9 @@ export const updateCustomerById = async (req, res) => {
     if (req.user.role === 'customer' && customer.user?.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Not authorized' });
     }
+    if (req.user.role === 'customer') {
+      delete req.body.user;
+    }
     const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).json(updatedCustomer);
   } catch (error) {

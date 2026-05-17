@@ -151,6 +151,10 @@ export const api = {
       method: 'DELETE',
       headers: authHeader(token)
     });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete booking');
+    }
     return response.json();
   },
 
@@ -163,6 +167,10 @@ export const api = {
       },
       body: JSON.stringify(payment)
     });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create payment');
+    }
     return response.json();
   },
 

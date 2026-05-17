@@ -4,10 +4,10 @@ import { protect, authorize } from '../middleware/authorize.js';
 
 const router = express.Router();
 
-router.use(protect);
+router.get('/', roomsController.getAllRooms);
+router.get('/:id', roomsController.getRoomById);
 
-router.get('/', authorize('admin', 'receptionist', 'customer'), roomsController.getAllRooms);
-router.get('/:id', authorize('admin', 'receptionist', 'customer'), roomsController.getRoomById);
+router.use(protect);
 router.post('/', authorize('admin', 'receptionist'), roomsController.createRoom);
 router.put('/:id', authorize('admin'), roomsController.updateRoomById);
 router.delete('/:id', authorize('admin'), roomsController.deleteRoomById);

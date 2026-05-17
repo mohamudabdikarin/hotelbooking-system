@@ -21,7 +21,7 @@ export const LoginPage = () => {
       
       if (result.token) {
         login(result.user, result.token);
-        navigate('/');
+        navigate('/dashboard');
       } else {
         setError(result.message || 'Login failed');
       }

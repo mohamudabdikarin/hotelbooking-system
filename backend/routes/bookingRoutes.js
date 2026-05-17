@@ -9,7 +9,7 @@ router.use(protect);
 router.post('/', authorize('admin', 'receptionist', 'customer'), bookingController.createBooking);
 router.get('/', authorize('admin', 'receptionist', 'customer'), bookingController.getAllBookings);
 router.get('/:id', authorize('admin', 'receptionist', 'customer'), bookingController.getBookingById);
-router.put('/:id', authorize('admin', 'receptionist'), bookingController.updateBookingById);
-router.delete('/:id', authorize('admin', 'receptionist'), bookingController.deleteBookingById);
+router.put('/:id', authorize('admin', 'receptionist', 'customer'), bookingController.updateBookingById);
+router.delete('/:id', authorize('admin', 'receptionist', 'customer'), bookingController.deleteBookingById);
 
 export default router;

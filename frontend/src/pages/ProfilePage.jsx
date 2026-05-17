@@ -33,11 +33,7 @@ export const ProfilePage = () => {
         <h1 className="text-4xl font-bold mb-8 text-center">My Profile</h1>
 
         <div className="space-y-6">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-4xl">
-              👤
-            </div>
-          </div>
+          
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -61,37 +57,6 @@ export const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="border-t pt-6">
-            <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <button
-                onClick={() => navigate('/bookings')}
-                className="bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
-              >
-                View My Bookings
-              </button>
-              <button
-                onClick={() => navigate('/rooms')}
-                className="bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
-              >
-                Browse Rooms
-              </button>
-              {user.role === 'admin' && (
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className="bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
-                >
-                  Go to Dashboard
-                </button>
-              )}
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
