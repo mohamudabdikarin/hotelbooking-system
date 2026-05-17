@@ -5,10 +5,10 @@ const paymentSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    order: {
+    booking: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Order'
+        ref: 'Booking'
     },
     amount: {
         type: Number,

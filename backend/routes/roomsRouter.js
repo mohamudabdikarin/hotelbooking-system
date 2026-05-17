@@ -1,22 +1,15 @@
-// rooms router file
 import express from 'express';
 import * as roomsController from '../controllers/roomsController.js';
+import { protect, authorize } from '../middleware/authorize.js';
+
 const router = express.Router();
 
-// create a new room
-router.post('/', roomsController.createRoom);
+router.use(protect);
 
-// get all rooms
-router.get('/', roomsController.getAllRooms);
-
-// get a room by ID
-router.get('/:id', roomsController.getRoomById);
-
-// update room
-router.put('/:id', roomsController.updateRoomById);
-
-// delete a room
-router.delete('/:id', roomsController.deleteRoomById);
-
+router.get('/', authorize('admin', 'receptionist', 'customer'), roomsController.getAllRooms);
+router.get('/:id', authorize('admin', 'receptionist', 'customer'), roomsController.getRoomById);
+router.post('/', authorize('admin', 'receptionist'), roomsController.createRoom);
+router.put('/:id', authorize('admin'), roomsController.updateRoomById);
+router.delete('/:id', authorize('admin'), roomsController.deleteRoomById);
 
 export default router;

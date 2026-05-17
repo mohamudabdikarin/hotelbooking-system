@@ -1,25 +1,17 @@
 
 import express from 'express';
 import * as customerController from '../controllers/customerController.js';
+import { protect, authorize } from '../middleware/authorize.js';
+
 const router = express.Router();
 
-// Create a new customer
-router.post('/', customerController.createCustomer);
+router.use(protect);
 
-// Get all customers
-router.get('/', customerController.getAllCustomers);
-
-
-// Get a customer by ID
-router.get('/:id', customerController.getCustomerById);
-
-
-// Update a customer by ID
-router.put('/:id', customerController.updateCustomerById);
-
-
-// Delete a customer by ID
-router.delete('/:id', customerController.deleteCustomerById);
+router.get('/', authorize('admin', 'receptionist', 'customer'), customerController.getAllCustomers);
+router.get('/:id', authorize('admin', 'receptionist', 'customer'), customerController.getCustomerById);
+router.post('/', authorize('admin', 'receptionist'), customerController.createCustomer);
+router.put('/:id', authorize('admin', 'receptionist', 'customer'), customerController.updateCustomerById);
+router.delete('/:id', authorize('admin'), customerController.deleteCustomerById);
 
 export default router;
 

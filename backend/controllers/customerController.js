@@ -1,34 +1,38 @@
-// this is customersController file
+import Customer from '../models/Customers.js';
 
-import Customer from '../models/Customer.js';
-
-// Get all customers
 export const getAllCustomers = async (req, res) => {
   try {
-    const customers = await Customer.find();
+    let customers;
+    if (req.user.role === 'customer') {
+      customers = await Customer.find({ user: req.user.id });
+    } else {
+      customers = await Customer.find();
+    }
     res.status(200).json(customers);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching customers', error });
   }
 };
 
-// Get a single customer by ID
 export const getCustomerById = async (req, res) => {
   try {
     const customer = await Customer.findById(req.params.id);
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
     }
-    res.status(200).json(customer);
-    } catch (error) {
-    res.status(500).json({ message: 'Error fetching customer', error });
+    if (req.user.role === 'customer' && customer.user?.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized' });
     }
+    res.status(200).json(customer);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching customer', error });
+  }
 };
 
-// Create a new customer
 export const createCustomer = async (req, res) => {
   try {
-    const newCustomer = new Customer(req.body);
+    const customerData = { ...req.body, user: req.user.id };
+    const newCustomer = new Customer(customerData);
     const savedCustomer = await newCustomer.save();
     res.status(201).json(savedCustomer);
   } catch (error) {
@@ -36,25 +40,23 @@ export const createCustomer = async (req, res) => {
   }
 };
 
-// Update an existing customer
-export const updateCustomer = async (req, res) => {
+export const updateCustomerById = async (req, res) => {
   try {
-    const updatedCustomer = await Customer.findByIdAndUpdate(
-      req.params.id,
-        req.body,
-        { new: true }
-    );
-    if (!updatedCustomer) {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
     }
-    res.status(200).json(updatedCustomer);
-    } catch (error) {
-    res.status(500).json({ message: 'Error updating customer', error });
+    if (req.user.role === 'customer' && customer.user?.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized' });
     }
+    const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.status(200).json(updatedCustomer);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating customer', error });
+  }
 };
 
-// Delete a customer
-export const deleteCustomer = async (req, res) => {
+export const deleteCustomerById = async (req, res) => {
   try {
     const deletedCustomer = await Customer.findByIdAndDelete(req.params.id);
     if (!deletedCustomer) {

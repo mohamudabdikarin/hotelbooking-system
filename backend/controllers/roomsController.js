@@ -1,5 +1,5 @@
 // this is roomsController file, it manages all cruid operations for rooms
-import Room from '../models/Room.js';
+import Room from '../models/Rooms.js';
 
 // create a new room
 export const createRoom = async (req, res) => {

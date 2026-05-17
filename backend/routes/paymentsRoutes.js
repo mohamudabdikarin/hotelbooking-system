@@ -1,22 +1,15 @@
-// payment routes file using demo payment
-
 import express from 'express';
 import * as paymentsController from '../controllers/paymentsController.js';
+import { protect, authorize } from '../middleware/authorize.js';
+
 const router = express.Router();
 
-// create a new payment
-router.post('/', paymentsController.createPayment);
+router.use(protect);
 
-// get all payments
-router.get('/', paymentsController.getAllPayments);
-
-// get a payment by ID
-router.get('/:id', paymentsController.getPaymentById);
-
-// update payment
-router.put('/:id', paymentsController.updatePaymentById);
-
-// delete a payment
-router.delete('/:id', paymentsController.deletePaymentById);
+router.get('/', authorize('admin', 'receptionist'), paymentsController.getAllPayments);
+router.get('/:id', authorize('admin', 'receptionist'), paymentsController.getPaymentById);
+router.post('/', authorize('admin'), paymentsController.createPayment);
+router.put('/:id', authorize('admin'), paymentsController.updatePaymentById);
+router.delete('/:id', authorize('admin'), paymentsController.deletePaymentById);
 
 export default router;

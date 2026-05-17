@@ -1,36 +1,34 @@
-// this is payments controller,
+import Payments from '../models/Payment.js';
 
-import Payments from '../models/Payments.js';
-
-// create a new payment
 export const createPayment = async (req, res) => {
     try {
-        const { amount, method, status } = req.body;
+        const { amount, method, status, bookingId } = req.body;
         const payment = new Payments({
+            user: req.user.id,
+            booking: bookingId,
             amount,
-            method,
-            status
+            paymentMethod: method,
+            isPaid: status === 'paid'
         });
         await payment.save();
         res.status(201).json(payment);
-    } catch (error) {        res.status(500).json({ message: 'Error creating payment', error });
+    } catch (error) {        
+        res.status(500).json({ message: 'Error creating payment', error });
     }
 };
 
-// get all payments
-export const getPayments = async (req, res) => {
+export const getAllPayments = async (req, res) => {
     try {
-        const payments = await Payments.find();
+        const payments = await Payments.find().populate('user', 'name email').populate('booking');
         res.status(200).json(payments);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching payments', error });
     }
 };
 
-// get a payment by id
 export const getPaymentById = async (req, res) => {
     try {
-        const payment = await Payments.findById(req.params.id);
+        const payment = await Payments.findById(req.params.id).populate('user', 'name email').populate('booking');
         if (!payment) {
             return res.status(404).json({ message: 'Payment not found' });
         }
@@ -40,13 +38,12 @@ export const getPaymentById = async (req, res) => {
     }
 };
 
-// update a payment
-export const updatePayment = async (req, res) => {
+export const updatePaymentById = async (req, res) => {
     try {
         const { amount, method, status } = req.body;
         const payment = await Payments.findByIdAndUpdate(
             req.params.id,
-            { amount, method, status },
+            { amount, paymentMethod: method, isPaid: status === 'paid' },
             { new: true }
         );
         if (!payment) {
@@ -56,4 +53,16 @@ export const updatePayment = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error updating payment', error });
     }
-};  
+};
+
+export const deletePaymentById = async (req, res) => {
+    try {
+        const payment = await Payments.findByIdAndDelete(req.params.id);
+        if (!payment) {
+            return res.status(404).json({ message: 'Payment not found' });
+        }
+        res.status(200).json({ message: 'Payment deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting payment', error });
+    }
+};
